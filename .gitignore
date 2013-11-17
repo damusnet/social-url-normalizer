@@ -1,0 +1,21 @@
+#
+# Composer specific
+#
+composer.phar
+composer.lock
+/vendor/
+
+#
+# Mac specific
+#
+.DS_Store
+
+#
+# Project specific
+#
+Guardfile
+
+#
+# Sublime-Text specific
+#
+
