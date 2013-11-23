@@ -6,10 +6,22 @@ class SocialUrlNormalizerFixture
 	public function socialNetworksUrls()
 	{
 		return array(
-			'https://www.facebook.com/username' => 'facebook',
-			'https://twitter.com/username' => 'twitter',
-			'https://www.youtube.com/user/username' => 'youtube',
-			'https://www.linkedin.com/company/12345' => 'linkedin',
+			'https://www.facebook.com/username' => array(
+				'social_network' => 'facebook',
+				'username' => 'username'
+			),
+			'https://twitter.com/username' => array(
+				'social_network' => 'twitter',
+				'username' => 'username'
+			),
+			'https://www.youtube.com/user/username' => array(
+				'social_network' => 'youtube',
+				'username' => 'username'
+			),
+			'https://www.linkedin.com/company/12345' => array(
+				'social_network' => 'linkedin',
+				'username' => '12345'
+			),
 		);
 	}
 	public function facebookUrls()

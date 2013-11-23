@@ -6,63 +6,43 @@ require 'SocialUrlNormalizerFixture.php';
 
 class SocialUrlNormalizerTest extends PHPUnit_Framework_TestCase
 {
-	public function testGetUrlProperties()
-	{
-		$this->assertEquals(SocialUrlNormalizer::getUrlProperties(
-			'https://www.facebook.com/username'),
-			array('social_network' => 'facebook', 'username' => 'username')
-		);
-	}
-
-	public function testValidUrl()
-	{
-		$valid_url = 'https://www.facebook.com/username';
-		$this->assertTrue(SocialUrlNormalizer::isValid($valid_url));
-	}
-
-	public function testNotValidUrl()
-	{
-		$not_valid_url = 'foobar';
-		$this->assertFalse(SocialUrlNormalizer::isValid($not_valid_url));
-	}
-
-	public function testGuessSocialNetwork()
+	public function testGetProperties()
 	{
 		$social_network_urls = SocialUrlNormalizerFixture::socialNetworksUrls();
-		foreach ($social_network_urls as $url => $social_network) {
-			$this->assertEquals(SocialUrlNormalizer::guessSocialNetwork($url), $social_network);					
+		foreach ($social_network_urls as $url => $properties) {
+			$this->assertEquals($properties, SocialUrlNormalizer::getProperties($url));
 		}
 	}
 
-	public function testGetFacebookUsername()
+	public function testExtractFacebookUsername()
 	{
 		$facebook_urls = SocialUrlNormalizerFixture::facebookUrls();
 		foreach ($facebook_urls as $url => $expected) {
-			$this->assertEquals(SocialUrlNormalizer::getFacebookUsername($url), $expected);
+			$this->assertEquals($expected, SocialUrlNormalizer::extractFacebookUsername($url));
 		}
 	}
 
-	public function testGetTwitterUsername()
+	public function testExtractTwitterUsername()
 	{
 		$twitter_urls = SocialUrlNormalizerFixture::TwitterUrls();
 		foreach ($twitter_urls as $url => $expected) {
-			$this->assertEquals(SocialUrlNormalizer::getTwitterUsername($url), $expected);
+			$this->assertEquals($expected, SocialUrlNormalizer::extractTwitterUsername($url));
 		}
 	}
 
-	public function testGetYoutubeUsername()
+	public function testExtractYoutubeUsername()
 	{
 		$youtube_urls = SocialUrlNormalizerFixture::YoutubeUrls();
 		foreach ($youtube_urls as $url => $expected) {
-			$this->assertEquals(SocialUrlNormalizer::getYoutubeUsername($url), $expected);
+			$this->assertEquals($expected, SocialUrlNormalizer::extractYoutubeUsername($url));
 		}
 	}
 
-	public function testGetLinkedinUsername()
+	public function testExtractLinkedinUsername()
 	{
 		$linkedin_urls = SocialUrlNormalizerFixture::LinkedinUrls();
 		foreach ($linkedin_urls as $url => $expected) {
-			$this->assertEquals(SocialUrlNormalizer::getLinkedinUsername($url), $expected);
+			$this->assertEquals($expected, SocialUrlNormalizer::extractLinkedinUsername($url));
 		}
 	}
 }
