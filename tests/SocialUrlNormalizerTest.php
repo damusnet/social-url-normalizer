@@ -14,35 +14,20 @@ class SocialUrlNormalizerTest extends PHPUnit_Framework_TestCase
 		}
 	}
 
-	public function testExtractFacebookUsername()
+	public function testExtractUsernames()
 	{
-		$facebook_urls = SocialUrlNormalizerFixture::facebookUrls();
-		foreach ($facebook_urls as $url => $expected) {
-			$this->assertEquals($expected, SocialUrlNormalizer::extractFacebookUsername($url));
+		$suportedSocialNetworks = SocialUrlNormalizer::$suportedSocialNetworks;
+		foreach ($suportedSocialNetworks as $social_network) {
+			$this->extractUsernameFor($social_network);
 		}
 	}
 
-	public function testExtractTwitterUsername()
+	private function extractUsernameFor($social_network)
 	{
-		$twitter_urls = SocialUrlNormalizerFixture::TwitterUrls();
-		foreach ($twitter_urls as $url => $expected) {
-			$this->assertEquals($expected, SocialUrlNormalizer::extractTwitterUsername($url));
-		}
-	}
-
-	public function testExtractYoutubeUsername()
-	{
-		$youtube_urls = SocialUrlNormalizerFixture::YoutubeUrls();
-		foreach ($youtube_urls as $url => $expected) {
-			$this->assertEquals($expected, SocialUrlNormalizer::extractYoutubeUsername($url));
-		}
-	}
-
-	public function testExtractLinkedinUsername()
-	{
-		$linkedin_urls = SocialUrlNormalizerFixture::LinkedinUrls();
-		foreach ($linkedin_urls as $url => $expected) {
-			$this->assertEquals($expected, SocialUrlNormalizer::extractLinkedinUsername($url));
+		$socialNetworkUrlsFunction = $social_network . 'Urls';
+		$social_network_urls = SocialUrlNormalizerFixture::$socialNetworkUrlsFunction();
+		foreach ($social_network_urls as $url => $expected) {
+			$this->assertEquals($expected, SocialUrlNormalizer::extractUsername($url, $social_network));
 		}
 	}
 }

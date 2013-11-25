@@ -59,7 +59,7 @@ class SocialUrlNormalizer
 	 *
 	 * @return string
 	 */
-	public function extractFacebookUsername($uri)
+	private function extractFacebookUsername($uri)
 	{
 		return preg_replace(
 			'#'
@@ -84,7 +84,7 @@ class SocialUrlNormalizer
 	 *
 	 * @return string
 	 */
-	public function extractTwitterUsername($uri)
+	private function extractTwitterUsername($uri)
 	{
 		return preg_replace(
 			'#'
@@ -106,7 +106,7 @@ class SocialUrlNormalizer
 	 *
 	 * @return string
 	 */
-	public function extractYoutubeUsername($uri)
+	private function extractYoutubeUsername($uri)
 	{
 		return preg_replace(
 			'#'
@@ -127,7 +127,7 @@ class SocialUrlNormalizer
 	 *
 	 * @return string
 	 */
-	public function extractLinkedinUsername($uri)
+	private function extractLinkedinUsername($uri)
 	{
 		return preg_replace(
 			'#'
