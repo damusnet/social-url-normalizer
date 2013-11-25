@@ -11,16 +11,27 @@ class SocialUrlNormalizer
 		'linkedin'
 	);
 
+	public function __construct($uri)
+	{
+		$this->inputUri = $uri;
+	}
+
 	/**
 	 * getUrlProperties
 	 *
 	 * @return array
 	 */
-	public function getProperties($url)
+	public function getProperties()
 	{
-		$social_network = SocialUrlNormalizer::guessSocialNetwork($url);
-		$username = SocialUrlNormalizer::extractUsername($url, $social_network);
+		$social_network = $this->guessSocialNetwork();
+
+		$username = $this->extractUsername($social_network);
 		return array('social_network' => $social_network, 'username' => $username);
+	}
+
+	public function is($network)
+	{
+		return $network === $this->guessSocialNetwork();
 	}
 
 	/**
@@ -28,10 +39,10 @@ class SocialUrlNormalizer
 	 *
 	 * @return string
 	 */
-	public function guessSocialNetwork($url)
+	public function guessSocialNetwork()
 	{
-		foreach (SocialUrlNormalizer::$suportedSocialNetworks as $social_network) {
-			if (strpos($url, $social_network)) {
+		foreach (self::$suportedSocialNetworks as $social_network) {
+			if (strpos($this->inputUri, $social_network)) {
 				return $social_network;
 			}
 		}
@@ -44,14 +55,14 @@ class SocialUrlNormalizer
 	 *
 	 * @return string
 	 */
-	public function extractUsername($uri, $social_network)
+	public function extractUsername($social_network)
 	{
-		if (!in_array($social_network, SocialUrlNormalizer::$suportedSocialNetworks)) {
+		if (!in_array($social_network, self::$suportedSocialNetworks)) {
 			// TODO: throw Exception, unsuported Social Network
 			return false;
 		}
 		$extractSocialNetworkUsername = 'extract' . ucfirst($social_network) . 'Username';
-		return SocialUrlNormalizer::$extractSocialNetworkUsername($uri);
+		return $this->$extractSocialNetworkUsername();
 	}
 
 	/**
@@ -59,7 +70,7 @@ class SocialUrlNormalizer
 	 *
 	 * @return string
 	 */
-	private function extractFacebookUsername($uri)
+	private function extractFacebookUsername()
 	{
 		return preg_replace(
 			'#'
@@ -75,7 +86,7 @@ class SocialUrlNormalizer
 			. '(?:\?.*)?'
 			. '#u',
 			'$1',
-			$uri
+			$this->inputUri
 		);
 	}
 
@@ -84,7 +95,7 @@ class SocialUrlNormalizer
 	 *
 	 * @return string
 	 */
-	private function extractTwitterUsername($uri)
+	private function extractTwitterUsername()
 	{
 		return preg_replace(
 			'#'
@@ -97,7 +108,7 @@ class SocialUrlNormalizer
 			. '(?:.*)?'
 			. '#',
 			'$1',
-			$uri
+			$this->inputUri
 		);
 	}
 
@@ -106,7 +117,7 @@ class SocialUrlNormalizer
 	 *
 	 * @return string
 	 */
-	private function extractYoutubeUsername($uri)
+	private function extractYoutubeUsername()
 	{
 		return preg_replace(
 			'#'
@@ -118,7 +129,7 @@ class SocialUrlNormalizer
 			. '(?:\?.*)?'
 			. '#u',
 			'$1',
-			$uri
+			$this->inputUri
 		);
 	}
 
@@ -127,7 +138,7 @@ class SocialUrlNormalizer
 	 *
 	 * @return string
 	 */
-	private function extractLinkedinUsername($uri)
+	private function extractLinkedinUsername()
 	{
 		return preg_replace(
 			'#'
@@ -139,7 +150,7 @@ class SocialUrlNormalizer
 			. '(?:\?.*)?'
 			. '#u',
 			'$1',
-			$uri
+			$this->inputUri
 		);
 	}
 }

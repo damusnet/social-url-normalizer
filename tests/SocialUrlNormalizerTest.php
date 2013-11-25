@@ -10,7 +10,20 @@ class SocialUrlNormalizerTest extends PHPUnit_Framework_TestCase
 	{
 		$social_network_urls = SocialUrlNormalizerFixture::socialNetworksUrls();
 		foreach ($social_network_urls as $url => $properties) {
-			$this->assertEquals($properties, SocialUrlNormalizer::getProperties($url));
+			
+			$this->socialUrl = new SocialUrlNormalizer($url);
+			$this->assertEquals($properties, $this->socialUrl->getProperties());
+		}
+	}
+	
+	public function testIsNetwork()
+	{
+		$social_network_urls = SocialUrlNormalizerFixture::socialNetworksUrls();
+		
+		foreach ($social_network_urls as $url => $properties) {
+			$this->socialUrl = new SocialUrlNormalizer($url);
+			$this->assertTrue($this->socialUrl->is($properties["social_network"]));
+			$this->assertFalse($this->socialUrl->is($properties["username"]));
 		}
 	}
 
@@ -27,7 +40,9 @@ class SocialUrlNormalizerTest extends PHPUnit_Framework_TestCase
 		$socialNetworkUrlsFunction = $social_network . 'Urls';
 		$social_network_urls = SocialUrlNormalizerFixture::$socialNetworkUrlsFunction();
 		foreach ($social_network_urls as $url => $expected) {
-			$this->assertEquals($expected, SocialUrlNormalizer::extractUsername($url, $social_network));
+
+			$this->socialUrl = new SocialUrlNormalizer($url);
+			$this->assertEquals($expected, $this->socialUrl->extractUsername($social_network));
 		}
 	}
 }
