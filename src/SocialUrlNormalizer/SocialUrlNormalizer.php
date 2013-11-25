@@ -65,6 +65,20 @@ class SocialUrlNormalizer
 		return $this->$extractSocialNetworkUsername();
 	}
 
+	private function regexpFactory($pattern)
+	{
+		return preg_replace(
+			'#'
+			. '(?:(?:http:|https:)//)?'
+			. '(?:www.)?'
+			. $pattern
+			. '(?:(?:\?|\#).*)?'
+			. '#u',
+			'$1',
+			$this->inputUri
+		);
+	}
+
 	/**
 	 * extractFacebookUsername
 	 *
@@ -72,21 +86,14 @@ class SocialUrlNormalizer
 	 */
 	private function extractFacebookUsername()
 	{
-		return preg_replace(
-			'#'
-			. '(?:(?:http|https)://)?'
-			. '(?:www.)?'
-			. '(?:facebook.com/)?'
+		return $this->regexpFactory(
+			'(?:facebook.com/)?'
 			. '(?:(?:\w)*\#!/)?'
 			. '(?:pages/)?'
 			. '(?:[?\p{L}\-_]*/)?'
 			. '(?:[?\w\-_]*/)?'
 			. '(?:profile.php\?id=(?=\d.*))?'
 			. '([\d\-]*)?'
-			. '(?:\?.*)?'
-			. '#u',
-			'$1',
-			$this->inputUri
 		);
 	}
 
@@ -97,18 +104,11 @@ class SocialUrlNormalizer
 	 */
 	private function extractTwitterUsername()
 	{
-		return preg_replace(
-			'#'
-			. '(?:(?:http|https)://)?'
-			. '(?:www.)?'
-			. '(?:twitter\.com\/)?'
+		return $this->regexpFactory(
+			'(?:twitter.com/)?'
 			. '(?:\#!\/)?'
 			. '(?:@)?'
-			. '([\w]+)'
-			. '(?:.*)?'
-			. '#',
-			'$1',
-			$this->inputUri
+			. '(?:[?\w\-_]*/)?'
 		);
 	}
 
@@ -119,17 +119,10 @@ class SocialUrlNormalizer
 	 */
 	private function extractYoutubeUsername()
 	{
-		return preg_replace(
-			'#'
-			. '(?:(?:http|https)://)?'
-			. '(?:www.)?'
-			. '(?:youtube.com/)?'
+		return $this->regexpFactory(
+			'(?:youtube.com/)?'
 			. '(?:user/)?'
 			. '(?:[?\w\-_]*/)?'
-			. '(?:\?.*)?'
-			. '#u',
-			'$1',
-			$this->inputUri
 		);
 	}
 
@@ -140,17 +133,10 @@ class SocialUrlNormalizer
 	 */
 	private function extractLinkedinUsername()
 	{
-		return preg_replace(
-			'#'
-			. '(?:(?:http|https)://)?'
-			. '(?:www.)?'
-			. '(?:linkedin.com/)?'
+		return $this->regexpFactory(
+			'(?:linkedin.com/)?'
 			. '(?:company/)?'
 			. '(?:[?\&p{L}\-_]*/)?'
-			. '(?:\?.*)?'
-			. '#u',
-			'$1',
-			$this->inputUri
 		);
 	}
 }

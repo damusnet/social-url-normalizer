@@ -27,8 +27,11 @@ class SocialUrlNormalizerFixture
 	public function facebookUrls()
 	{
 		return 	array(
+			'//www.facebook.com/username' => 'username',
 			'https://www.facebook.com/username' => 'username',
 			'http://www.facebook.com/username' => 'username',
+			'http://www.facebook.com/username?rel=src' => 'username',
+			'http://www.facebook.com/username#utm=src' => 'username',
 			'www.facebook.com/username' => 'username',
 			'facebook.com/username' => 'username',
 			'username' => 'username',
@@ -45,8 +48,11 @@ class SocialUrlNormalizerFixture
 	public function twitterUrls()
 	{
 		return 	array(
+			'//www.twitter.com/username' => 'username',
 			'https://www.twitter.com/username' => 'username',
 			'https://twitter.com/username' => 'username',
+			'https://twitter.com/username?utm=source' => 'username',
+			'https://twitter.com/username#utm=source' => 'username',
 			'https://twitter.com/user_name' => 'user_name',
 			'https://twitter.com/username42' => 'username42',
 			'https://twitter.com/user_name_42' => 'user_name_42',
